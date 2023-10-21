@@ -19,11 +19,11 @@ cross_mask = np.array([[0, 0, 1, 0, 0],
                        [0, 0, 1, 0, 0]], dtype=bool)
 
 
-plus_labels = label(binary_erosion(binary_space, plus_mask))
+plus_labels = label(binary_erosion(binary_space, plus_mask)) # подсчет "плюсов"
 plus_count = len(np.unique(plus_labels)) - 1
 
 
-cross_labels = label(binary_erosion(binary_space, cross_mask))
+cross_labels = label(binary_erosion(binary_space, cross_mask)) # подсчет "крестиков"
 cross_count = len(np.unique(cross_labels)) - 1
 
 

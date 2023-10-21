@@ -12,14 +12,13 @@ labeled = label(wires)
 for lb in range(1, np.max(labeled)+1):
     new_image = np.zeros_like(wires)
     new_image[labeled==lb] = 1
-    print("провода", lb)
     eroded_wire = binary_erosion(new_image, struct)
     parts = np.max(label(eroded_wire))
 
     if parts == 1:
-        print(f"Провод {lb} не порван.")
+        print(f"Провод №{lb} не порван.")
     else:
-        print(f"Провод {lb} порван на {parts} части.")
+        print(f"Провод №{lb} порван на {parts} части.")
 
 
 

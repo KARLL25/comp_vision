@@ -1,2 +1,2 @@
 # Всего символов: 400
-![Alt text](1.png)
+![Alt text](images/1.png)

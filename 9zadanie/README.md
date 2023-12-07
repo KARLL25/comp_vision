@@ -30,4 +30,4 @@
 
 ### Общее количество фигур: 257
 
-![Alt text](pic/image.png)
+![Alt text](pic/pic1.png)

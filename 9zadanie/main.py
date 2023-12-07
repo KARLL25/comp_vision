@@ -55,7 +55,7 @@ def main():
     height, width = image.shape[:2]
     resized_image = cv2.resize(image, (800, 800))
 
-    cv2.imshow('Высчитывание фигур', resized_image)
+    cv2.imshow('Detection by colors and shapes', resized_image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 

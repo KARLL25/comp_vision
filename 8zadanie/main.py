@@ -1,36 +1,34 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.measure import label, regionprops
-from skimage.morphology import binary_erosion
 
-def load_data(index):
-    return np.load(f"out/h_{index}.npy")
+def process_data(file_path):
+    data = np.load(file_path)
+    rotated_data = np.rot90(data, k=-1)
+    flipped_data = np.fliplr(rotated_data)
+    return flipped_data
 
-def plot_object_trajectories(data_list):
-    object_colors = {}
-    object_positions = {}
+def plot_trajectories(x, y, label, marker):
+    plt.scatter(x, y, label=label, marker=marker, alpha=0.5)
 
-    for idx, data in enumerate(data_list):
-        eroded_data = binary_erosion(data)
-        labeled_data = label(eroded_data)
-        props = regionprops(labeled_data)
+x_object1, y_object1, x_object2, y_object2 = [], [], [], []
 
-        for prop in props:
-            label_value = prop.label
-            y, x = prop.centroid
+for i in range(100):
+    file_path = f'out/h_{i}.npy'
 
-            color = object_colors.setdefault(label_value, 'orange' if len(object_colors) % 2 == 0 else 'green')
-            if label_value in object_positions:
-                prev_x, prev_y = object_positions[label_value]
-                plt.plot([prev_x, x], [prev_y, y], color=color)  
+    processed_data = process_data(file_path)
 
-            object_positions[label_value] = (x, y)
+    detected_regions = sorted(regionprops(label(processed_data)), key=lambda region: region.area)
 
-    plt.title("Траектория движения")
-    plt.xlabel("X Position")
-    plt.ylabel("Y Position")
-    plt.show()
+    if len(detected_regions) >= 2:
+        (x1, y1), (x2, y2) = [region.centroid for region in detected_regions[:2]]
+        x_object1.append(x1)
+        y_object1.append(y1)
+        x_object2.append(x2)
+        y_object2.append(y2)
 
-# Пример использования
-data_list = [load_data(i) for i in range(100)]
-plot_object_trajectories(data_list)
+plt.title("Траектория движения")
+plt.plot(x_object1, y_object1, label='Object 1')
+plt.plot(x_object2, y_object2, label='Object 2')
+plt.legend()
+plt.show()
